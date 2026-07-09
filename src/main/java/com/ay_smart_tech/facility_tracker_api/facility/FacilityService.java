@@ -32,7 +32,9 @@ public class FacilityService {
                                 && f.getFacilityType() == request.getFacilityType()
                 )
         ){
-            throw new DuplicateResourceException("You have pending facility");
+            throw new DuplicateResourceException("Customer with id "
+                    + request.getCustomerId()
+                    + " have pending facility" );
         }
 
         Facility facility = new Facility();
@@ -69,7 +71,7 @@ public class FacilityService {
     @Transactional
     public FacilityResponseDto updateStatus(Long facilityId, FacilitySatus newStatus) {
         Facility facility = facilityRepo.findById(facilityId).orElseThrow(()->
-                new ResourceNotFoundException("Facility not with id " + facilityId));
+                new ResourceNotFoundException("Facility not found with id " + facilityId));
 
 
         facility.transitionTo(newStatus);

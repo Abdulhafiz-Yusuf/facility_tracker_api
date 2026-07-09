@@ -72,7 +72,7 @@ public class Facility {
 
     public void transitionTo(FacilitySatus newStatus){
         Set<FacilitySatus> allowed = ALLOWED_TRANSITIONS.get(this.status);
-        if(allowed == null || allowed.contains(newStatus)) {
+        if(allowed == null || !allowed.contains(newStatus)) {
             throw new IllegalStateException(
                     "Cannot Transition facility from " + this.status + " to " + newStatus
             );
