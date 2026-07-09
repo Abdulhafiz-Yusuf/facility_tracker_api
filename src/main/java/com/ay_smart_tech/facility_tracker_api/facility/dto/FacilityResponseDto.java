@@ -1,0 +1,28 @@
+package com.ay_smart_tech.facility_tracker_api.facility.dto;
+
+import com.ay_smart_tech.facility_tracker_api.facility.FacilitySatus;
+import com.ay_smart_tech.facility_tracker_api.facility.FacilityType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.Value;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+/**
+ * DTO for {@link com.ay_smart_tech.facility_tracker_api.facility.Facility}
+ */
+@Value
+public class FacilityResponseDto {
+    Long id;
+    Long customerId;
+    FacilityType facilityType;
+    BigDecimal principal;
+    BigDecimal profitRate;
+    FacilitySatus status;
+    LocalDate startDate;
+    LocalDateTime createdAt;
+}

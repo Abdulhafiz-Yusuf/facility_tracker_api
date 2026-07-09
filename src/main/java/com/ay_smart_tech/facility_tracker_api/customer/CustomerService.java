@@ -2,8 +2,8 @@ package com.ay_smart_tech.facility_tracker_api.customer;
 
 import com.ay_smart_tech.facility_tracker_api.common.exceptions.DuplicateResourceException;
 import com.ay_smart_tech.facility_tracker_api.common.exceptions.ResourceNotFoundException;
-import com.ay_smart_tech.facility_tracker_api.customer.dto.CustomerRequest;
-import com.ay_smart_tech.facility_tracker_api.customer.dto.CustomerResponse;
+import com.ay_smart_tech.facility_tracker_api.customer.dto.CustomerRequestDto;
+import com.ay_smart_tech.facility_tracker_api.customer.dto.CustomerResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,7 @@ public class CustomerService {
 
     // createCustomer()
     @Transactional
-    public CustomerResponse createCustomer(CustomerRequest request){
+    public CustomerResponseDto createCustomer(CustomerRequestDto request){
         // throw a duplicateResource exception if customer with request.email already exist
         if(customerRepo.existsByEmail(request.getEmail())){
             throw new DuplicateResourceException(
@@ -39,7 +39,7 @@ public class CustomerService {
 
     // getCustomerById()
     @Transactional(readOnly = true)
-    public CustomerResponse getCustomerById(Long id){
+    public CustomerResponseDto getCustomerById(Long id){
         Customer customer = customerRepo.findById(id).orElseThrow(()->
                 new ResourceNotFoundException("Customer not found with id: " + id));
 
@@ -47,7 +47,7 @@ public class CustomerService {
     }
     // getAllCustomers()
     @Transactional(readOnly = true)
-    public List<CustomerResponse> getAllCustomers(){
+    public List<CustomerResponseDto> getAllCustomers(){
         return customerRepo.findAll().stream()
                 .map(this::toResponse)
                 .toList();
@@ -55,8 +55,8 @@ public class CustomerService {
 
 
     // toReponse()
-    private CustomerResponse toResponse(Customer customer) {
-        return new CustomerResponse(
+    private CustomerResponseDto toResponse(Customer customer) {
+        return new CustomerResponseDto(
                 customer.getId(),
                 customer.getFullName(),
                 customer.getEmail(),

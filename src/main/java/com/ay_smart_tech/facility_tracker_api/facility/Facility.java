@@ -2,7 +2,9 @@ package com.ay_smart_tech.facility_tracker_api.facility;
 
 import com.ay_smart_tech.facility_tracker_api.customer.Customer;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -15,6 +17,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "facility")
 public class Facility {
     @Id

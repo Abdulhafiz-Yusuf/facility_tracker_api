@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  * DTO for {@link com.ay_smart_tech.facility_tracker_api.customer.Customer}
  */
 @Value
-public class CustomerResponse implements Serializable {
+public class CustomerResponseDto implements Serializable {
     Long id;
     String fullName;
     String email;

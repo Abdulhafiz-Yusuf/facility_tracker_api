@@ -2,6 +2,9 @@ package com.ay_smart_tech.facility_tracker_api.customer.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import java.io.Serializable;
@@ -10,7 +13,7 @@ import java.io.Serializable;
  * DTO for {@link com.ay_smart_tech.facility_tracker_api.customer.Customer}
  */
 @Value
-public class CustomerRequest implements Serializable {
+public class CustomerRequestDto implements Serializable {
 
     @NotBlank(message = "Full Name is required")
     String fullName;
