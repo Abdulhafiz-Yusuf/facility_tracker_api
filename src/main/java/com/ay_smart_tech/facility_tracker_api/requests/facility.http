@@ -23,19 +23,19 @@ Content-Type: application/json
 }
 
 ### Approve facility (PENDING -> APPROVED)
-PATCH {{host}}/facilities/1/status
+PATCH {{host}}/facilities/3/status
 Content-Type: application/json
 
 { "status": "APPROVED" }
 
 ### Illegal transition (APPROVED -> CLOSED, skipping ACTIVE)
-PATCH {{host}}/facilities/1/status
+PATCH {{host}}/facilities/3/status
 Content-Type: application/json
 
 { "status": "CLOSED" }
 
 ### Activate facility (APPROVED -> ACTIVE)
-PATCH {{host}}/facilities/1/status
+PATCH {{host}}/facilities/2/status
 Content-Type: application/json
 
 { "status": "ACTIVE" }
