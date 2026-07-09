@@ -1,0 +1,38 @@
+@host=http://localhost:8080
+
+### Create customers === sucess case
+POST {{host}}/customers
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email":"ammar@gmail.com",
+  "fullName":"Ammar Abdulhafiz"
+}
+
+### Create customers === blank and invalid email case
+POST {{host}}/customers
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email":"",
+  "fullName":"Ammar Abdulhafiz"
+}
+
+### Create customers === blank and invalid fullName case
+POST {{host}}/customers
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email":"a@gmail.com",
+  "fullName":" "
+}
+
+
+### Customer a Specific customer
+GET {{host}}/customers/4
+
+### Get All Customers
+GET {{host}}/customers
