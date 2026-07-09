@@ -1,0 +1,47 @@
+@host=http://localhost:8080
+
+### Create facility - success
+POST {{host}}/facilities
+Content-Type: application/json
+
+{
+  "customerId": 1,
+  "facilityType": "MURABAHA",
+  "principal": 500000.00,
+  "profitRate": 8.5
+}
+
+### Create facility - nonexistent customer
+POST {{host}}/facilities
+Content-Type: application/json
+
+{
+  "customerId": 999,
+  "facilityType": "MURABAHA",
+  "principal": 500000.00,
+  "profitRate": 8.5
+}
+
+### Approve facility (PENDING -> APPROVED)
+PATCH {{host}}/facilities/1/status
+Content-Type: application/json
+
+{ "status": "APPROVED" }
+
+### Illegal transition (APPROVED -> CLOSED, skipping ACTIVE)
+PATCH {{host}}/facilities/1/status
+Content-Type: application/json
+
+{ "status": "CLOSED" }
+
+### Activate facility (APPROVED -> ACTIVE)
+PATCH {{host}}/facilities/1/status
+Content-Type: application/json
+
+{ "status": "ACTIVE" }
+
+### Get facility by id
+GET {{host}}/facilities/1
+
+### Get facilities by customer
+GET {{host}}/facilities?customerId=1

@@ -1,5 +1,6 @@
 package com.ay_smart_tech.facility_tracker_api.facility;
 
+import com.ay_smart_tech.facility_tracker_api.common.exceptions.DuplicateResourceException;
 import com.ay_smart_tech.facility_tracker_api.common.exceptions.ResourceNotFoundException;
 import com.ay_smart_tech.facility_tracker_api.customer.CustomerRepository;
 import com.ay_smart_tech.facility_tracker_api.facility.dto.FacilityRequestDto;
@@ -24,6 +25,16 @@ public class FacilityService {
             throw new ResourceNotFoundException(
                     "Customer not found with id " +  request.getCustomerId());
         }
+
+        if(facilityRepo.findByCustomerId(request.getCustomerId()).stream()
+                .anyMatch(f->
+                        f.getStatus()  == FacilitySatus.PENDING
+                                && f.getFacilityType() == request.getFacilityType()
+                )
+        ){
+            throw new DuplicateResourceException("You have pending facility");
+        }
+
         Facility facility = new Facility();
         facility.setCustomerId(request.getCustomerId());
         facility.setFacilityType(request.getFacilityType());
