@@ -1,13 +1,9 @@
-package com.ay_smart_tech.facility_tracker_api.facility.dto;
+package com.ay_smart_tech.facility_tracker_api.facility.dtos;
 
 import com.ay_smart_tech.facility_tracker_api.facility.FacilitySatus;
 import com.ay_smart_tech.facility_tracker_api.facility.FacilityType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.Value;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

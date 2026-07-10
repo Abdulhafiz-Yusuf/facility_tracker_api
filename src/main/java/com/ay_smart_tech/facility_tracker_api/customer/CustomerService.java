@@ -2,8 +2,8 @@ package com.ay_smart_tech.facility_tracker_api.customer;
 
 import com.ay_smart_tech.facility_tracker_api.common.exceptions.DuplicateResourceException;
 import com.ay_smart_tech.facility_tracker_api.common.exceptions.ResourceNotFoundException;
-import com.ay_smart_tech.facility_tracker_api.customer.dto.CustomerRequestDto;
-import com.ay_smart_tech.facility_tracker_api.customer.dto.CustomerResponseDto;
+import com.ay_smart_tech.facility_tracker_api.customer.dtos.CustomerRequestDto;
+import com.ay_smart_tech.facility_tracker_api.customer.dtos.CustomerResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

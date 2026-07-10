@@ -1,8 +1,8 @@
 package com.ay_smart_tech.facility_tracker_api.facility;
 
-import com.ay_smart_tech.facility_tracker_api.facility.dto.FacilityRequestDto;
-import com.ay_smart_tech.facility_tracker_api.facility.dto.FacilityResponseDto;
-import com.ay_smart_tech.facility_tracker_api.facility.dto.FacilityStatusUpdateRequestDto;
+import com.ay_smart_tech.facility_tracker_api.facility.dtos.FacilityRequestDto;
+import com.ay_smart_tech.facility_tracker_api.facility.dtos.FacilityResponseDto;
+import com.ay_smart_tech.facility_tracker_api.facility.dtos.FacilityStatusUpdateRequestDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

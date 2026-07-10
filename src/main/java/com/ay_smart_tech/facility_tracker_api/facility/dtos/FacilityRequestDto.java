@@ -1,11 +1,8 @@
-package com.ay_smart_tech.facility_tracker_api.facility.dto;
+package com.ay_smart_tech.facility_tracker_api.facility.dtos;
 
 import com.ay_smart_tech.facility_tracker_api.facility.FacilityType;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import java.math.BigDecimal;

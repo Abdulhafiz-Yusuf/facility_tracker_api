@@ -1,10 +1,7 @@
-package com.ay_smart_tech.facility_tracker_api.customer.dto;
+package com.ay_smart_tech.facility_tracker_api.customer.dtos;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import java.io.Serializable;

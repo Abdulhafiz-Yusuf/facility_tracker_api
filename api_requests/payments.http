@@ -1,0 +1,45 @@
+@host=http://localhost:8080
+
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+###
+
+
+### Create Payment === success case
+POST {{host}}/payments
+Content-Type: application/json
+
+{
+    "facilityId":2,
+    "amountPaid":500.00
+
+}
+###
+
+### Create Payment === invalid facilityId case
+POST {{host}}/payments
+Content-Type: application/json
+
+{
+  "facilityId":-2,
+  "amountPaid":500.00
+
+}
+###
+
+### Create Payment === invalid amountPaid case
+POST {{host}}/payments
+Content-Type: application/json
+
+{
+  "facilityId":-2,
+  "amountPaid": -20
+
+}
+###
+
+###
+GET {{host}}/payments/1
+###

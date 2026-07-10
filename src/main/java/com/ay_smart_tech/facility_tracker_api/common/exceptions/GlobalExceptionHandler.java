@@ -1,7 +1,5 @@
 package com.ay_smart_tech.facility_tracker_api.common.exceptions;
 
-import com.ay_smart_tech.facility_tracker_api.common.exceptions.DuplicateResourceException;
-import com.ay_smart_tech.facility_tracker_api.common.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -25,6 +23,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleDuplicate(DuplicateResourceException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(buildBody(ex.getMessage()));
     }
+
+    @ExceptionHandler(BusinessRuleException.class)
+    public ResponseEntity<Map<String, Object>> handleBusinessRule(BusinessRuleException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(buildBody(ex.getMessage()));
+    }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidation(MethodArgumentNotValidException ex) {

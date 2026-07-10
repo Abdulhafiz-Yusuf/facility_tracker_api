@@ -1,7 +1,7 @@
 package com.ay_smart_tech.facility_tracker_api.customer;
 
-import com.ay_smart_tech.facility_tracker_api.customer.dto.CustomerRequestDto;
-import com.ay_smart_tech.facility_tracker_api.customer.dto.CustomerResponseDto;
+import com.ay_smart_tech.facility_tracker_api.customer.dtos.CustomerRequestDto;
+import com.ay_smart_tech.facility_tracker_api.customer.dtos.CustomerResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

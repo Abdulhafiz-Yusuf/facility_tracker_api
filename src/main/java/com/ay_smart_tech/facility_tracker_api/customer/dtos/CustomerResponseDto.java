@@ -1,4 +1,4 @@
-package com.ay_smart_tech.facility_tracker_api.customer.dto;
+package com.ay_smart_tech.facility_tracker_api.customer.dtos;
 
 import com.ay_smart_tech.facility_tracker_api.customer.KycStatus;
 import lombok.Value;
