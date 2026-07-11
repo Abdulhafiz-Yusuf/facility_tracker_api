@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/payments")
 @AllArgsConstructor
@@ -19,12 +21,29 @@ class PaymentController {
     public ResponseEntity<PaymentResponseDto> createPayment(
             @Valid @RequestBody PaymentRequestDto request){
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.createPayment(request));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(service.createPayment(request));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PaymentResponseDto> getPaymentById(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(service.getPaymentById(id));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(service.getPaymentById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PaymentResponseDto>> getAllPayments(
+            @RequestParam(required = false) Long facilityId){
+        if(facilityId != null) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(service.getPaymentsByFacilityId(facilityId));
+        }
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(service.getAllPayments());
     }
 
 

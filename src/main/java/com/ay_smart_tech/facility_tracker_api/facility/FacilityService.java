@@ -26,7 +26,7 @@ public class FacilityService {
 
         if(facilityRepo.findByCustomerId(request.getCustomerId()).stream()
                 .anyMatch(f->
-                        f.getStatus()  == FacilitySatus.PENDING
+                        f.getStatus()  == FacilityStatus.PENDING
                                 && f.getFacilityType() == request.getFacilityType()
                 )
         ){
@@ -67,7 +67,7 @@ public class FacilityService {
     }
 
     @Transactional
-    public FacilityResponseDto updateStatus(Long facilityId, FacilitySatus newStatus) {
+    public FacilityResponseDto updateStatus(Long facilityId, FacilityStatus newStatus) {
         Facility facility = facilityRepo.findById(facilityId).orElseThrow(()->
                 new ResourceNotFoundException("Facility not found with id " + facilityId));
 
@@ -89,7 +89,6 @@ public class FacilityService {
                 facility.getPrincipal(),
                 facility.getProfitRate(),
                 facility.getStatus(),
-                facility.getStartDate(),
                 facility.getCreatedAt()
         );
     }

@@ -4,7 +4,8 @@ import com.ay_smart_tech.facility_tracker_api.common.exceptions.BusinessRuleExce
 import com.ay_smart_tech.facility_tracker_api.common.exceptions.ResourceNotFoundException;
 import com.ay_smart_tech.facility_tracker_api.facility.Facility;
 import com.ay_smart_tech.facility_tracker_api.facility.FacilityRepository;
-import com.ay_smart_tech.facility_tracker_api.facility.FacilitySatus;
+import com.ay_smart_tech.facility_tracker_api.facility.FacilityStatus;
+import com.ay_smart_tech.facility_tracker_api.facility.FacilityStatus;
 import com.ay_smart_tech.facility_tracker_api.payment.dtos.PaymentRequestDto;
 import com.ay_smart_tech.facility_tracker_api.payment.dtos.PaymentResponseDto;
 import jakarta.transaction.Transactional;
@@ -28,30 +29,43 @@ public class PaymentService {
     //createPayment
     @Transactional
     public PaymentResponseDto createPayment(PaymentRequestDto request){
-        Facility facility = findFacilityById(request.facilityId())
+        Facility facility = findFacilityById(request.facilityId());
 
-        if(facility.getStatus() != FacilitySatus.ACTIVE){
+        if(facility.getStatus() != FacilityStatus.ACTIVE){
             throw new BusinessRuleException("Facility with Id " + request.facilityId() + " not ACTIVE");
         }
 
-        BigDecimal currentOutstandingBal = facility.getPrincipal()
-                .subtract(paymentRepo.sumAmountPaidByFacilityId(request.facilityId()));
 
-        if(request.amountPaid().compareTo(currentOutstandingBal) > 0){
+        BigDecimal totalAmountPaid = paymentRepo.sumAmountPaid(request.facilityId());
+        BigDecimal currentOutstandingBal = facility.getPrincipal().subtract(totalAmountPaid);
+
+        if(request.amountPaid().compareTo(currentOutstandingBal) > 0 ){
             throw new BusinessRuleException("Payment amount " + request.amountPaid()
                     + " exceed outstanding balance "+ currentOutstandingBal);
         }
-
         Payment payment = new Payment();
         payment.setAmountPaid(request.amountPaid());
         payment.setFacilityId(request.facilityId());
 
+
         BigDecimal outstandingBalAfter = currentOutstandingBal.subtract(request.amountPaid());
 
+
+        if(outstandingBalAfter.compareTo(BigDecimal.ZERO) == 0 ) {
+            facility.transitionTo(FacilityStatus.CLOSED);
+            facilityRepo.save(facility);
+        }
+//            return toResponse(SavedPayment, outstandingBalAfter, facility.getStatus());
+
         Payment SavedPayment = paymentRepo.save(payment);
-
-        return toResponse(SavedPayment,outstandingBalAfter);
-
+        return new PaymentResponseDto(
+                SavedPayment.getId(),
+                SavedPayment.getFacilityId(),
+                SavedPayment.getAmountPaid(),
+                outstandingBalAfter,
+                SavedPayment.getPaymentDate(),
+                facility.getStatus()
+        );
     }
 
 
@@ -60,31 +74,41 @@ public class PaymentService {
     public PaymentResponseDto getPaymentById(Long id){
         Payment payment = findPaymentById(id);
         Facility facility = findFacilityById(payment.getFacilityId());
-        BigDecimal totalPaidAmount = paymentRepo.sumAmountPaidByFacilityId(facility.getId());
+        BigDecimal totalPaidAmount = paymentRepo.sumAmountPaidToDate(facility.getId(),id);
         BigDecimal outstandingBal = facility.getPrincipal().subtract(totalPaidAmount);
-        return toResponse(payment,outstandingBal);
+        return toResponse(payment,outstandingBal,facility.getStatus());
     }
 
 
 
     //getPaymentsByFacility
     @Transactional
-    public List<PaymentResponseDto> getPaymentsByFacility(Long facilityId){
+    public List<PaymentResponseDto> getPaymentsByFacilityId(Long facilityId){
         Facility facility = findFacilityById(facilityId);
-
-
+        List<Payment> payments = paymentRepo.findByFacilityId(facilityId);
+        return payments.stream().map(p -> getPaymentById(p.getId())).toList();
     }
 
 
     //getAllPayments
+    @Transactional
+    public List<PaymentResponseDto> getAllPayments() {
+        return paymentRepo.findAll().stream()
+                .map(p -> getPaymentById(p.getId()))
+                .toList();
+    }
+
+
     // toResponse
-    //PaymentResponse
-    public PaymentResponseDto toResponse(Payment payment, BigDecimal outstandingBal){
+    private PaymentResponseDto toResponse(Payment payment, BigDecimal outstandingBal,FacilityStatus facilityStatus){
         return new PaymentResponseDto(
+                payment.getId(),
                 payment.getFacilityId(),
                 payment.getAmountPaid(),
                 outstandingBal,
-                payment.getPaymentDate()
+                payment.getPaymentDate(),
+                facilityStatus
+
         );
     }
 

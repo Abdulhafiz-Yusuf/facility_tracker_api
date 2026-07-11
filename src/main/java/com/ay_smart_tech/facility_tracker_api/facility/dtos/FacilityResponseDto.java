@@ -1,6 +1,6 @@
 package com.ay_smart_tech.facility_tracker_api.facility.dtos;
 
-import com.ay_smart_tech.facility_tracker_api.facility.FacilitySatus;
+import com.ay_smart_tech.facility_tracker_api.facility.FacilityStatus;
 import com.ay_smart_tech.facility_tracker_api.facility.FacilityType;
 import lombok.Value;
 
@@ -18,7 +18,6 @@ public class FacilityResponseDto {
     FacilityType facilityType;
     BigDecimal principal;
     BigDecimal profitRate;
-    FacilitySatus status;
-    LocalDate startDate;
+    FacilityStatus status;
     LocalDateTime createdAt;
 }

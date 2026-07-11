@@ -1,24 +1,16 @@
 @host=http://localhost:8080
 
-### GET request to example server
-GET https://examples.http-client.intellij.net/get
-    ?generated-in=IntelliJ IDEA
-
-###
-
-
-### Create Payment === success case
+### 1. Create Payment === success case
 POST {{host}}/payments
 Content-Type: application/json
 
 {
-    "facilityId":2,
-    "amountPaid":500.00
-
+    "facilityId":1,
+    "amountPaid":50000
 }
 ###
 
-### Create Payment === invalid facilityId case
+### 2. Create Payment === invalid facilityId case
 POST {{host}}/payments
 Content-Type: application/json
 
@@ -29,7 +21,7 @@ Content-Type: application/json
 }
 ###
 
-### Create Payment === invalid amountPaid case
+### 3. Create Payment === invalid amountPaid case
 POST {{host}}/payments
 Content-Type: application/json
 
@@ -40,6 +32,15 @@ Content-Type: application/json
 }
 ###
 
-###
+### 4. get a payment with payment ID
 GET {{host}}/payments/1
+###
+
+### 5. get all payments == case: All payments irrespective of which facility
+GET {{host}}/payments
+###
+
+
+### 6. get all payments == case: All payments of a specific facility
+GET {{host}}/payments?facilityId=1
 ###

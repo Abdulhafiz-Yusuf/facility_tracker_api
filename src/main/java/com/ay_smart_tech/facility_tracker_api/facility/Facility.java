@@ -46,7 +46,7 @@ public class Facility {
     @ColumnDefault("PENDING")
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
-    private FacilitySatus status;
+    private FacilityStatus status;
 
     @Column(name = "start_date")
     private LocalDate startDate;
@@ -62,23 +62,23 @@ public class Facility {
     private LocalDateTime updatedAt;
 
     // Legal transitions map: current status -> set of statuses it may move to
-    private static final Map<FacilitySatus, Set<FacilitySatus>> ALLOWED_TRANSITIONS = Map.of(
-            FacilitySatus.PENDING, Set.of(FacilitySatus.APPROVED, FacilitySatus.REJECTED),
-            FacilitySatus.APPROVED, Set.of(FacilitySatus.ACTIVE),
-            FacilitySatus.ACTIVE, Set.of(FacilitySatus.CLOSED),
-            FacilitySatus.CLOSED, Set.of(),
-            FacilitySatus.REJECTED, Set.of()
+    private static final Map<FacilityStatus, Set<FacilityStatus>> ALLOWED_TRANSITIONS = Map.of(
+            FacilityStatus.PENDING, Set.of(FacilityStatus.APPROVED, FacilityStatus.REJECTED),
+            FacilityStatus.APPROVED, Set.of(FacilityStatus.ACTIVE),
+            FacilityStatus.ACTIVE, Set.of(FacilityStatus.CLOSED),
+            FacilityStatus.CLOSED, Set.of(),
+            FacilityStatus.REJECTED, Set.of()
     );
 
-    public void transitionTo(FacilitySatus newStatus){
-        Set<FacilitySatus> allowed = ALLOWED_TRANSITIONS.get(this.status);
+    public void transitionTo(FacilityStatus newStatus){
+        Set<FacilityStatus> allowed = ALLOWED_TRANSITIONS.get(this.status);
         if(allowed == null || !allowed.contains(newStatus)) {
             throw new IllegalStateException(
                     "Cannot transition facility from " + this.status + " to " + newStatus
             );
         }
         this.status = newStatus;
-        if(newStatus == FacilitySatus.ACTIVE && this.startDate == null){
+        if(newStatus == FacilityStatus.ACTIVE && this.startDate == null){
             this.startDate = LocalDate.now();
         }
 
@@ -90,7 +90,7 @@ public class Facility {
         this.updatedAt = LocalDateTime.now();
 
         if(this.status == null)
-            this.status = FacilitySatus.PENDING;
+            this.status = FacilityStatus.PENDING;
     }
 
     @PreUpdate

@@ -31,7 +31,8 @@ class FacilityController {
             @PathVariable Long id,
             @Valid @RequestBody FacilityStatusUpdateRequestDto requestDto
     ){
-        return ResponseEntity.status(HttpStatus.OK).body(service.updateStatus(id,requestDto.getStatus()));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(service.updateStatus(id,requestDto.getStatus()));
     }
 
     @GetMapping("/{id}")

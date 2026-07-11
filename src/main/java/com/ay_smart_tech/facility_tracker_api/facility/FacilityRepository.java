@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface FacilityRepository extends JpaRepository<Facility, Long> {
     List<Facility> findByCustomerId(Long customerId);
-    List<Facility> findByStatus(FacilitySatus status);
+    List<Facility> findByStatus(FacilityStatus status);
 
 
 }
