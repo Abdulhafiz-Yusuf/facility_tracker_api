@@ -1,0 +1,8 @@
+CREATE TABLE app_user (
+      id BIGINT AUTO_INCREMENT PRIMARY KEY,
+      email VARCHAR(150) NOT NULL UNIQUE,
+      password_hash VARCHAR(255) NOT NULL,
+      role VARCHAR(20) NOT NULL,
+      must_change_password BOOLEAN NOT NULL DEFAULT FALSE,
+      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
