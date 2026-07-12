@@ -47,14 +47,19 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers("/auth/register", "/auth/login").permitAll()
+//                        .requestMatchers("/admin/staff").hasRole("MANAGER")
+//                        .anyRequest().authenticated()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/register", "/auth/login").permitAll()
-                        .requestMatchers("/admin/staff").hasRole("MANAGER")
-                        .anyRequest().authenticated()
+                        // TEMPORARY — TESTING ONLY. Revert before continuing real use.
+                        // Original rules commented out below, not deleted.
+                        .anyRequest().permitAll()
                 )
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(mustChangePasswordFilter, JwtAuthFilter.class);
+//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+//                .addFilterAfter(mustChangePasswordFilter, JwtAuthFilter.class)
+                ;
 
         return http.build();
     }
