@@ -25,7 +25,7 @@ public class InitialManagerSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) {
         if (userRepository.existsByRole(Role.MANAGER)) {
-            return; // already bootstrapped, do nothing
+            return;
         }
         User manager = new User();
         manager.setEmail(managerEmail);
@@ -33,5 +33,6 @@ public class InitialManagerSeeder implements CommandLineRunner {
         manager.setRole(Role.MANAGER);
         manager.setMustChangePassword(true);
         userRepository.save(manager);
+        System.out.println("Seeded initial MANAGER account: " + managerEmail);
     }
 }

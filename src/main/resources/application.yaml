@@ -1,17 +1,23 @@
 spring:
   application:
     name: facility_tracker-api
-
   jpa:
     hibernate:
-      ddl-auto: validate   # Hibernate checks entities MATCH the schema, never changes it
+      ddl-auto: validate
     show-sql: true
   flyway:
-      enabled: true
-      locations: classpath:db/migration
-
+    enabled: true
+    locations: classpath:db/migration
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration-ms: 86400000
+  bootstrap:
+    manager-email: ${BOOTSTRAP_MANAGER_EMAIL}
+    manager-password: ${BOOTSTRAP_MANAGER_PASSWORD}
