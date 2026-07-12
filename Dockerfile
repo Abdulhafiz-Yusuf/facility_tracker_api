@@ -13,7 +13,7 @@ RUN ./mvnw dependency:go-offline -B
 
 # Now copy source and build
 COPY src ./src
-RUN ./mvn clean package -DskipTests -B
+RUN ./mvnw clean package -DskipTests -B
 
 # Stage 2: Run
 FROM eclipse-temurin:21-jre-alpine

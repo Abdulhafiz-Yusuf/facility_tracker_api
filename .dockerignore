@@ -1,0 +1,33 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# IDE
+.idea/
+.vscode/
+*.iml
+.eclipse/
+
+# Maven
+target/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+
+# Documentation
+README.md
+docs/
+
+# Tests
+src/test/
+
+# CI/CD
+.github/
+.gitlab-ci.yml
