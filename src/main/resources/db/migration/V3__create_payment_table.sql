@@ -1,5 +1,5 @@
 CREATE TABLE payment (
-     id BIGINT AUTO_INCREMENT PRIMARY KEY,
+     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
      facility_id BIGINT NOT NULL,
      amount_paid DECIMAL(15,2) NOT NULL,
      payment_date DATE NOT NULL,
