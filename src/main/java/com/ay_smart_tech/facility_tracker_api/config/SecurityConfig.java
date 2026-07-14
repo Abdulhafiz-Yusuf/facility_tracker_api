@@ -1,6 +1,6 @@
 package com.ay_smart_tech.facility_tracker_api.config;
 
-import com.ay_smart_tech.facility_tracker_api.user.UserService;
+import com.ay_smart_tech.facility_tracker_api.user.UserServiceDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -23,7 +22,7 @@ public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
     private final MustChangePasswordFilter mustChangePasswordFilter;
-    private final UserService userDetailsService;
+    private final UserServiceDetailsImpl userDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -49,6 +48,7 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/", "/api/health", "/actuator/health").permitAll()
                         .requestMatchers("/auth/register", "/auth/login").permitAll()
                         .requestMatchers("/admin/staff").hasRole("MANAGER")
                         .anyRequest().authenticated()

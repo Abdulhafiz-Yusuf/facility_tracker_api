@@ -10,7 +10,6 @@ import com.ay_smart_tech.facility_tracker_api.user.Role;
 import com.ay_smart_tech.facility_tracker_api.user.User;
 import com.ay_smart_tech.facility_tracker_api.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
