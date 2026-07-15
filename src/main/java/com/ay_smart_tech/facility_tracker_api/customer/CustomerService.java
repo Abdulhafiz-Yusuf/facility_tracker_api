@@ -5,6 +5,7 @@ import com.ay_smart_tech.facility_tracker_api.common.exceptions.ResourceNotFound
 import com.ay_smart_tech.facility_tracker_api.customer.dtos.CustomerRequestDto;
 import com.ay_smart_tech.facility_tracker_api.customer.dtos.CustomerResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import java.util.List;
 public class CustomerService {
 
     private final CustomerRepository customerRepo;
+
 
     // createCustomer()
     @Transactional

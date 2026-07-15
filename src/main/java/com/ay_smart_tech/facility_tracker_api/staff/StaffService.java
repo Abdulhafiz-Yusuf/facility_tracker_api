@@ -30,6 +30,8 @@ public class StaffService {
             throw new DuplicateResourceException("Email already in use: " + request.email());
         }
 
+        
+
         String tempPassword = generateTempPassword();
 
         User user = new User();

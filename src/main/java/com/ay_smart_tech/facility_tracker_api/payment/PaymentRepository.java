@@ -11,10 +11,21 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     List<Payment> findByFacilityId(Long facilityId);
 
-    @Query("SELECT COALESCE(SUM(p.amountPaid), 0) FROM Payment p WHERE p.facilityId = :facilityId AND p.id <= :paymentId ORDER BY p.id" )
-    BigDecimal sumAmountPaidToDate(@Param("facilityId") Long facilityId, @Param("paymentId") Long paymentId);
+    @Query("""
+    SELECT COALESCE(SUM(p.amountPaid), 0)
+    FROM Payment p
+    WHERE p.facilityId = :facilityId
+      AND p.id <= :paymentId
+    """)
+    BigDecimal sumAmountPaidToDate(@Param("facilityId") Long facilityId,
+                                   @Param("paymentId") Long paymentId);
 
-    @Query("SELECT COALESCE(SUM(p.amountPaid), 0) FROM Payment p WHERE p.facilityId = :facilityId" )
+
+    @Query("""
+    SELECT COALESCE(SUM(p.amountPaid), 0)
+    FROM Payment p
+    WHERE p.facilityId = :facilityId
+    """)
     BigDecimal sumAmountPaid(@Param("facilityId") Long facilityId);
 
 

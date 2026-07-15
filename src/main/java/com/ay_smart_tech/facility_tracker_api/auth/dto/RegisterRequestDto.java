@@ -16,8 +16,8 @@ public record RegisterRequestDto(
         @Email(message = "Please enter a standard email")
         String email,
 
-        @Size(message = "Password must be atleast 8 characters", min = 8, max = 12)
-        String passwordHash,
+        @Size(message = "Password must be atleast 8 characters", min = 8, max = 30)
+        String password,
 
         @NotBlank
         String fullName

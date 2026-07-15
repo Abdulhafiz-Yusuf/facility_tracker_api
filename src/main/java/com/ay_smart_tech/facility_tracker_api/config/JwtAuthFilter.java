@@ -1,5 +1,7 @@
 package com.ay_smart_tech.facility_tracker_api.config;
 
+import com.ay_smart_tech.facility_tracker_api.user.User;
+import com.ay_smart_tech.facility_tracker_api.user.UserRepository;
 import com.ay_smart_tech.facility_tracker_api.user.UserServiceDetailsImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -21,6 +23,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserServiceDetailsImpl userDetailsService;
+    private final UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -36,17 +39,25 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         String token = authHeader.substring(7);
-        String email = jwtService.extractEmail(token);
 
-        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+        try {
+            String email = jwtService.extractEmail(token);
+            if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                User user = userRepository.findByEmail(email)
+                        .orElse(null);
 
-            if (jwtService.isTokenValid(token, userDetails)) {
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                if (jwtService.isTokenValid(token, user)) {
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
+        }catch(io.jsonwebtoken.JwtException | IllegalArgumentException ex) {
+            // Malformed, expired, or invalid signature — treat as "not authenticated."
+            // Do NOT set authentication. Let the request continue unauthenticated;
+            // downstream .anyRequest().authenticated() will correctly reject it as 401.
+            SecurityContextHolder.clearContext();
         }
 
         filterChain.doFilter(request, response);

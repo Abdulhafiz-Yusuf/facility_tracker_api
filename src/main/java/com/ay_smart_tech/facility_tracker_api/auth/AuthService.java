@@ -36,7 +36,7 @@ public class AuthService {
 
         User user = new User();
         user.setEmail(request.email());
-        user.setPasswordHash(passwordEncoder.encode(request.passwordHash()));
+        user.setPasswordHash(passwordEncoder.encode(request.password()));
         user.setRole(Role.CUSTOMER); // hardcoded — caller can NEVER choose their own role
         user.setMustChangePassword(false);
         User savedUser = userRepository.save(user);
@@ -68,7 +68,7 @@ public class AuthService {
     }
 
     @Transactional
-    public void changePassword(String email, ChangePassowordRequestDto request) {
+    public ChangePassowordResponseDto changePassword(String email, ChangePassowordRequestDto request) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new BadCredentialsException("User not found"));
 
@@ -79,5 +79,11 @@ public class AuthService {
         user.setPasswordHash(passwordEncoder.encode(request.newPassword()));
         user.setMustChangePassword(false);
         userRepository.save(user);
+
+        return new ChangePassowordResponseDto(
+                "Password changed successfully.",
+                false,
+                true
+        );
     }
 }

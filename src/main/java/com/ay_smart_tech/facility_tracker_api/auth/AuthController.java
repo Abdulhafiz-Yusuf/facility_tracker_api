@@ -6,6 +6,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponseDto> register(@Valid @RequestBody RegisterRequestDto request) {
@@ -27,10 +30,9 @@ public class AuthController {
     }
 
     @PostMapping("/change-password")
-    public ResponseEntity<Void> changePassword(
+    public ResponseEntity<ChangePassowordResponseDto> changePassword(
             @AuthenticationPrincipal User user,
             @Valid @RequestBody ChangePassowordRequestDto request) {
-        authService.changePassword(user.getUsername(), request);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.OK).body(authService.changePassword(user.getUsername(), request));
     }
 }
